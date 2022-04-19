@@ -1,0 +1,76 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using GameWebApp.Models
+@model IndexViewModel
+<!--импортируем tag-хелперы проекта-->
+@addTagHelper *, GameWebApp
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+ 
+<h2>Список игр</h2>
+
+<form method="get">
+    <label>Быстрый выбор: </label>
+    <select name="game" asp-items="Model.FilterViewModel.Games"></select>
+  
+    <input type="submit" value="Выбрать" />
+</form>
+
+<p><a asp-action="Create">Добавить игру</a></p>
+
+<table class="table">
+     <tr>
+         <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.WalkthroughSort)"
+               asp-route-game="@(Model.FilterViewModel.SelectedGame)">Прохождение</a>
+         </th>
+         <th></th>
+         <th>
+             <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.GameTitleSort)"
+               asp-route-game="@(Model.FilterViewModel.SelectedGame)">Название игры</a>
+         </th>
+         <th>
+             <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.ReleaseSort)"
+               asp-route-game="@(Model.FilterViewModel.SelectedGame)">Релиз</a>
+         </th>
+         <th>
+             <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.PlatformSort)"
+               asp-route-game="@(Model.FilterViewModel.SelectedGame)">Платформа</a>
+         </th>
+         <th>            
+             <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.RatingSort)"
+               asp-route-game="@(Model.FilterViewModel.SelectedGame)">Оценка</a>
+         </th>
+         <th></th>
+         <th></th>
+     </tr>
+    @foreach (var item in Model.Games)
+    {
+        <tr>
+            <td>@item.Walkthrough</td>
+            <td>@item.F2</td>
+            <td>@item.GameTitle</td>
+            <td>@item.Release</td>
+            <td>@item.Platform</td>
+            <td>@item.Rating</td>
+
+            <td>
+                <a asp-action="Edit" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
+            </td>
+            <td>
+                <form asp-controller="Home" asp-action="Delete" method="post"  asp-route-id="@item.Id">
+                    <input type="submit" value="Удалить" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<page-link page-model="Model.PageViewModel" page-action="Index"
+           page-url-game="@(Model.FilterViewModel.SelectedGame)"
+           page-url-sortorder="@(Model.SortViewModel.Current)">
+</page-link>
