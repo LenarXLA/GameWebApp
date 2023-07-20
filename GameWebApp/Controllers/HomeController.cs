@@ -88,7 +88,7 @@ namespace GameWebApp.Controllers
         }
 
         // удаление
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id != null)
@@ -112,7 +112,7 @@ namespace GameWebApp.Controllers
             return NotFound();
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Edit(Game game)
         {
             db.Games.Update(game);
